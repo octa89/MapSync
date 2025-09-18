@@ -1,0 +1,217 @@
+<Window x:Class="WpfMapApp1.OfflineMapWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Enhanced Offline Map Generation" Height="600" Width="800"
+        WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#0079c1" Padding="15">
+            <TextBlock Text="Enhanced Offline Map Generation" 
+                       Foreground="White" 
+                       FontSize="16" 
+                       FontWeight="Bold" 
+                       HorizontalAlignment="Center"/>
+        </Border>
+
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="1" Padding="20">
+            <StackPanel>
+                <!-- Existing Offline Maps -->
+                <GroupBox Header="Existing Offline Maps" Padding="10" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="Previously generated offline maps (ordered by creation date):" 
+                                   Margin="0,0,0,10" 
+                                   FontStyle="Italic"/>
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <ComboBox Name="ExistingMapsComboBox" 
+                                      Grid.Column="0"
+                                      DisplayMemberPath="DisplayName"
+                                      Margin="0,0,10,0"/>
+                            
+                            <Button Name="LoadExistingMapButton" 
+                                    Grid.Column="1"
+                                    Content="Load Selected" 
+                                    Width="100" 
+                                    Margin="0,0,10,0"
+                                    IsEnabled="False"/>
+                            
+                            <Button Name="RefreshExistingMapsButton" 
+                                    Grid.Column="2"
+                                    Content="Refresh" 
+                                    Width="70"/>
+                        </Grid>
+                        
+                        <TextBlock Name="ExistingMapInfoTextBlock" 
+                                   Margin="0,10,0,0" 
+                                   FontSize="12" 
+                                   Foreground="Gray"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Area of Interest -->
+                <GroupBox Header="Area of Interest" Padding="10" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="Current map extent will be used for offline area" 
+                                   Margin="0,0,0,10" 
+                                   FontStyle="Italic"/>
+                        <Button Name="SelectAreaButton" 
+                                Content="Select Different Area" 
+                                Width="150" 
+                                HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Basemap Options -->
+                <GroupBox Header="Basemap Options" Padding="10" Margin="0,0,0,15">
+                    <StackPanel>
+                        <CheckBox Name="IncludeBasemapCheckBox" 
+                                  Content="Include basemap in offline package" 
+                                  IsChecked="True" 
+                                  Margin="0,0,0,10"/>
+                        
+                        <RadioButton Name="DownloadBasemapRadio" 
+                                     Content="Download online basemap" 
+                                     GroupName="BasemapSource" 
+                                     IsChecked="True" 
+                                     Margin="0,5"/>
+                        
+                        <RadioButton Name="UseLocalBasemapRadio" 
+                                     Content="Use local basemap files" 
+                                     GroupName="BasemapSource" 
+                                     Margin="0,5"/>
+
+                        <StackPanel Name="LocalBasemapPanel" 
+                                    Margin="20,10,0,0" 
+                                    IsEnabled="False">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBox Name="BasemapDirectoryTextBox" 
+                                         Grid.Column="0" 
+                                         Margin="0,0,10,0" 
+                                         VerticalAlignment="Center"/>
+                                
+                                <Button Name="BrowseBasemapButton" 
+                                        Grid.Column="1" 
+                                        Content="Browse..." 
+                                        Width="80"/>
+                            </Grid>
+                            
+                            <ComboBox Name="BasemapFileComboBox" 
+                                      Margin="0,10,0,0" 
+                                      DisplayMemberPath="DisplayName"/>
+                            
+                            <TextBlock Name="BasemapInfoTextBlock" 
+                                       Margin="0,5,0,0" 
+                                       FontSize="12" 
+                                       Foreground="Gray"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Advanced Options -->
+                <GroupBox Header="Advanced Options" Padding="10" Margin="0,0,0,15">
+                    <StackPanel>
+                        <CheckBox Name="SchemaOnlyCheckBox" 
+                                  Content="Download schema only for editable layers (faster, smaller)" 
+                                  Margin="0,5"/>
+                        
+                        <CheckBox Name="ExcludeAttachmentsCheckBox" 
+                                  Content="Exclude existing attachments (reduce size)" 
+                                  Margin="0,5"/>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <TextBlock Text="Max features per layer:" 
+                                       VerticalAlignment="Center" 
+                                       Margin="0,0,10,0"/>
+                            <TextBox Name="MaxFeaturesTextBox" 
+                                     Width="80" 
+                                     Text="10000"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Output Location -->
+                <GroupBox Header="Output Location" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBox Name="OutputPathTextBox" 
+                                 Grid.Column="0" 
+                                 Margin="0,0,10,0" 
+                                 VerticalAlignment="Center"/>
+                        
+                        <Button Name="BrowseOutputButton" 
+                                Grid.Column="1" 
+                                Content="Browse..." 
+                                Width="80"/>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Progress -->
+        <Border Grid.Row="2" 
+                Name="ProgressPanel" 
+                Background="#f0f0f0" 
+                Padding="15" 
+                Visibility="Collapsed">
+            <StackPanel>
+                <TextBlock Name="ProgressTextBlock" 
+                           Text="Preparing offline map..." 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,10"/>
+                
+                <ProgressBar Name="ProgressBar" 
+                             Height="20" 
+                             Minimum="0" 
+                             Maximum="100"/>
+                
+                <Button Name="CancelButton" 
+                        Content="Cancel" 
+                        Width="80" 
+                        Margin="0,10,0,0" 
+                        HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Bottom Buttons -->
+        <Border Grid.Row="3" Background="#f8f8f8" Padding="15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Name="GenerateButton" 
+                        Content="Generate Offline Map" 
+                        Width="150" 
+                        Height="35" 
+                        Background="#0079c1" 
+                        Foreground="White" 
+                        Margin="0,0,10,0"/>
+                
+                <Button Name="CloseButton" 
+                        Content="Close" 
+                        Width="80" 
+                        Height="35"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

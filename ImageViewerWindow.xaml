@@ -1,0 +1,210 @@
+<Window x:Class="POSM_MR3_2.ImageViewerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="POSM Inspection Image Viewer"
+        Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="#1A1A1A">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header with title and close button -->
+        <Border Grid.Row="0"
+                Background="#2D2D30"
+                BorderBrush="#3F3F46"
+                BorderThickness="0,0,0,1">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Vertical">
+                    <TextBlock x:Name="TitleText"
+                               Text="Inspection Image"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+                    <TextBlock x:Name="InfoText"
+                               Text="Loading..."
+                               FontSize="12"
+                               Foreground="#B0B0B0"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="✕"
+                        Click="CloseButton_Click"
+                        Width="30" Height="30"
+                        Background="Transparent"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="16"
+                        Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="2">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#E81123"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Image display area with zoom and pan -->
+        <ScrollViewer Grid.Row="1"
+                      x:Name="ImageScrollViewer"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto"
+                      Background="#1A1A1A"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+            <Grid x:Name="ImageContainer"
+                  RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="ImageScaleTransform" ScaleX="1" ScaleY="1"/>
+                        <TranslateTransform x:Name="ImageTranslateTransform"/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+
+                <Image x:Name="MainImage"
+                       Stretch="Uniform"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       MouseLeftButtonDown="Image_MouseLeftButtonDown"
+                       MouseLeftButtonUp="Image_MouseLeftButtonUp"
+                       MouseMove="Image_MouseMove"
+                       Cursor="Hand"/>
+
+                <!-- Loading indicator -->
+                <Border x:Name="LoadingIndicator"
+                        Background="#80000000"
+                        Visibility="Collapsed">
+                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <ProgressBar IsIndeterminate="True"
+                                    Width="200" Height="4"
+                                    Foreground="#007ACC"/>
+                        <TextBlock Text="Loading image..."
+                                  Foreground="White"
+                                  Margin="0,10,0,0"
+                                  HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Footer with controls -->
+        <Border Grid.Row="2"
+                Background="#2D2D30"
+                BorderBrush="#3F3F46"
+                BorderThickness="0,1,0,0">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Zoom controls -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Button Content="🔍−"
+                            Click="ZoomOut_Click"
+                            Width="40" Height="30"
+                            Margin="0,0,5,0"
+                            ToolTip="Zoom Out (Scroll Down)"/>
+                    <Button Content="🔍+"
+                            Click="ZoomIn_Click"
+                            Width="40" Height="30"
+                            Margin="0,0,5,0"
+                            ToolTip="Zoom In (Scroll Up)"/>
+                    <Button Content="⊡"
+                            Click="ZoomReset_Click"
+                            Width="40" Height="30"
+                            Margin="0,0,5,0"
+                            ToolTip="Reset Zoom (100%)"/>
+                    <Button Content="⊞"
+                            Click="ZoomFit_Click"
+                            Width="40" Height="30"
+                            ToolTip="Fit to Window"/>
+                </StackPanel>
+
+                <!-- Zoom level indicator -->
+                <TextBlock Grid.Column="1"
+                          x:Name="ZoomLevelText"
+                          Text="100%"
+                          Foreground="White"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"
+                          FontSize="14"/>
+
+                <!-- Additional controls -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Button Content="📁 Open in Explorer"
+                            Click="OpenInExplorer_Click"
+                            Width="120" Height="30"
+                            Margin="5,0,0,0"
+                            ToolTip="Open file location in Windows Explorer"/>
+                    <Button Content="📋 Copy Path"
+                            Click="CopyPath_Click"
+                            Width="90" Height="30"
+                            Margin="5,0,0,0"
+                            ToolTip="Copy image path to clipboard"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+
+    <Window.Resources>
+        <!-- Button style -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#3F3F46"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#555555"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="5,2"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#007ACC"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#005A9E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+</Window>

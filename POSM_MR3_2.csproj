@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+	  <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>True</UseWPF>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <Platforms>x64</Platforms>
+	  <SelfContained>true</SelfContained>
+	  <PublishSingleFile>false</PublishSingleFile>
+    <UseWindowsForms>False</UseWindowsForms>
+    <ApplicationIcon>POSM MapSync.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PlatformTarget>x64</PlatformTarget>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <Authors>Octavio Pereira </Authors>
+    <Product>POSM Software Map Reader</Product>
+	  <Version>3.2.4</Version>
+    <AssemblyName>POSM-MapReader</AssemblyName>
+    <BaseOutputPath>C:\Users\octav\OneDrive\Documentos\POSM Projects and data\1. MR3\MR3.1.0\bin</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\POSMBlack.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="POSM MapSync.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Esri.ArcGISRuntime" Version="200.7.0" />
+    <PackageReference Include="Esri.ArcGISRuntime.runtimes.win" Version="200.7.0" />
+    <PackageReference Include="Esri.ArcGISRuntime.Toolkit.WPF" Version="200.7.0" />
+    <PackageReference Include="Esri.ArcGISRuntime.WPF">
+      <Version>200.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Data.OleDb" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\POSMBlack.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\POSM-Map-Sync-2025-cg11-with-Graphic.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+	<Target Name="CopyArcGISRuntime" AfterTargets="Build">
+		<ItemGroup>
+			<RuntimeFiles Include="$(NuGetPackageRoot)\esri.arcgisruntime.runtimes.win\200.7.0\runtimes\win-x64\native\*.*" />
+		</ItemGroup>
+
+		<Message Text="Copying ArcGIS Runtime files to C:\POSM_Mapreader" Importance="high" />
+		<Copy SourceFiles="@(RuntimeFiles)" DestinationFolder="C:\POSM_Mapreader\%(RecursiveDir)" OverwriteReadOnlyFiles="true" />
+	</Target>
+</Project>

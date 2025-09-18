@@ -1,0 +1,133 @@
+<Window x:Class="WpfMapApp1.AppendToPosmDbWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Append to POSM GIS Database"
+        Height="855"
+        Width="800"
+        Background="{DynamicResource WindowBackgroundBrush}">
+
+    <Grid Margin="10">
+
+        <!-- 1) Define rows up‑front -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Step 1 label -->
+            <RowDefinition Height="Auto"/>
+            <!-- Layer ComboBox -->
+            <RowDefinition Height="Auto"/>
+            <!-- Step 2 label -->
+            <RowDefinition Height="Auto"/>
+            <!-- Sample DataGrid -->
+            <RowDefinition Height="Auto"/>
+            <!-- Step 3 label -->
+            <RowDefinition Height="Auto"/>
+            <!-- ProgressBar -->
+            <RowDefinition Height="*"/>
+            <!-- FieldMapping DataGrid -->
+            <RowDefinition Height="Auto"/>
+            <!-- Append Button -->
+        </Grid.RowDefinitions>
+
+        <!-- 2) Busy-overlay: spans all rows -->
+        <Grid x:Name="LoadingOverlay"
+          Grid.Row="0"
+          Grid.RowSpan="8"
+          Background="#80000000"
+          Visibility="Collapsed"
+          Panel.ZIndex="100">
+            <Image Source="pack://application:,,,/Assets/Loading.gif"
+             Width="64"
+             Height="64"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- Step 1: Layer Selection -->
+        <TextBlock Grid.Row="0"
+               Text="Step 1: Select Feature Layer"
+               FontWeight="Bold"
+               Foreground="White"/>
+        <ComboBox x:Name="LayerComboBox"
+              Grid.Row="1"
+              Height="30"
+              Margin="0,5,0,10"
+              Background="White"
+              SelectionChanged="LayerComboBox_SelectionChanged">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" Foreground="Black"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <!-- Step 2: Sample Data Preview -->
+        <TextBlock Grid.Row="2"
+               Text="Step 2: Sample Data Preview (First Feature)"
+               FontWeight="Bold"
+               Margin="0,5,0,5"
+               Foreground="White"/>
+        <DataGrid x:Name="SampleDataGrid"
+              Grid.Row="3"
+              AutoGenerateColumns="True"
+              IsReadOnly="True"
+              Height="100"
+              Margin="0,0,0,10"/>
+
+        <!-- Step 3: Field Mapping -->
+        <TextBlock Grid.Row="4"
+               Text="Step 3: Map Fields from Layer to POSMGISData.mdb"
+               FontWeight="Bold"
+               Margin="0,5,0,5"
+               Foreground="White"/>
+
+        <!-- Progress Bar -->
+        <ProgressBar x:Name="AppendProgressBar"
+                 Grid.Row="5"
+                 Height="20"
+                 Margin="0,10,0,10"
+                 Visibility="Collapsed"
+                 Minimum="0"
+                 Maximum="100"
+                 Value="0"/>
+
+        <!-- Field Mapping Grid -->
+        <DataGrid x:Name="FieldMappingGrid"
+              Grid.Row="6"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              Margin="0,10,0,34">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="GIS Layer Field"
+                            Binding="{Binding LayerField}"
+                            Width="2*"/>
+                <DataGridTemplateColumn Header="POSMGIS Field" Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MappedField}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding DataContext.DbFields,
+                                                RelativeSource={RelativeSource AncestorType=Window}}"
+                        SelectedItem="{Binding MappedField,
+                                      Mode=TwoWay,
+                                      UpdateSourceTrigger=PropertyChanged}"
+                        SelectionChanged="POSMGISFieldComboBox_SelectionChanged"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Append Button -->
+        <Button x:Name="AppendButton"
+            Grid.Row="7"
+            Content="Append To Database"
+            Width="200"
+            Height="40"
+            HorizontalAlignment="Center"
+            Margin="0,10,0,0"
+            Click="AppendButton_Click"/>
+    </Grid>
+</Window>

@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir)",
+      "Bash(dotnet run:*)",
+      "Bash(timeout:*)",
+      "Bash(findstr:*)",
+      "Read(\\/**)",
+      "Bash(csc:*)",
+      "Bash(DatabaseTest.exe)",
+      "Bash(del DatabaseTest.cs DatabaseTest.csproj)",
+      "Bash(dotnet build)",
+      "Bash(dir:*)",
+      "Bash(dotnet build:*)",
+      "Bash(copy:*)",
+      "Bash(xcopy:*)",
+      "Read(/C:\\Users\\octav\\OneDrive\\Documentos\\POSM Projects and data\\1. MR3\\MR3.1.0\\bin\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64/**)",
+      "Read(/C:\\Users\\octav\\OneDrive\\Documentos\\POSM Projects and data\\1. MR3\\MR3.1.0\\bin\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64/**)",
+      "Read(/C:\\Users\\octav\\OneDrive\\Documentos\\POSM Projects and data\\1. MR3\\MR3.1.0\\bin\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64/**)",
+      "Read(/C:\\Users\\octav\\OneDrive\\Documentos\\POSM Projects and data\\1. MR3\\MR3.1.0\\bin\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64/**)",
+      "WebSearch",
+      "Read(//c/Users/octav/POSM Software Dropbox/POSM Programming/Mapping Tools/MR3/MaReader 3.1.0/**)",
+      "Bash(mkdir:*)",
+      "Read(//c/Users/octav/OneDrive/Documentos/OfflineMaps//**)",
+      "Bash(find:*)",
+      "Read(//c/Users/octav/OneDrive/Documentos/POSM Projects and data/000. Programing code/**)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "mcpServers": {
+    "github": {
+      "command": "npx.cmd",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github",
+        "--stdio"
+      ],
+      "env": {
+        "GITHUB_TOKEN": "${env:GITHUB_TOKEN}",
+        "GITHUB_REPOSITORIES": "${env:GITHUB_REPOSITORIES}"
+      }
+    }
+  }
+}

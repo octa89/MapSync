@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfMapApp1.CustomTemplateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Custom Template" Height="180" Width="300"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="Enter custom template name:" Margin="0,0,0,5"/>
+            <TextBox x:Name="txtTemplateName" Width="250"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="OK" Width="75" Margin="0,0,10,0" Click="OK_Click"/>
+            <Button Content="Cancel" Width="75" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

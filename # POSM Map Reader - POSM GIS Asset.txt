@@ -1,0 +1,115 @@
+# POSM Map Reader - POSM GIS Asset Management Tool
+
+## Overview
+
+WpfMapApp1 is a Windows Presentation Foundation (WPF) application built in C# using the Esri ArcGIS Runtime SDK. This tool was created as a companion to the POSM software to facilitate seamless integration with GIS data. The application allows users to extract and interact with asset information from GIS maps, launch inspections, view historical data, and manage assets more efficiently—all in one intuitive interface.
+
+The tool is designed to work with both standard industry datasets and custom templates. It aligns various data fields to ensure that asset information is accurately transferred to inspection templates, making it easier to review previous inspections, access metadata, and link to web-based URLs for media and additional details.
+
+## Features & Capabilities
+
+- **GIS Data Integration:**
+  - Load maps via a web map ID from ArcGIS Portal or local Mobile Map Packages (MMPK files).
+- **Feature Identification & Popups:**
+  - Tap on the map to identify features and automatically extract Asset IDs.
+  - Display built-in popups with detailed information about the selected feature.
+  - Support for draggable popups for flexible on-screen positioning.
+- **Navigation & Basemaps:**
+  - Zoom in/out and pan the map.
+  - Open a Basemap Gallery window to switch between different basemaps.
+- **POSM Integration:**
+  - Launch the external POSM application with the selected Asset ID and configured inspection type.
+  - Seamless data transfer to ensure accurate, organized inspection records.
+- **Historical Inspection & Metadata Access:**
+  - View previous or historical inspections.
+  - Access links that point to web-based URLs containing metadata and media.
+
+## Installation
+
+### Prerequisites
+
+- **Operating System:** Windows OS
+- **Development Framework:** .NET Framework *
+- **SDKs & Libraries:**
+  - [Esri ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/net/)
+  - [Newtonsoft.Json](https://www.newtonsoft.com/json) (installed via NuGet)
+- **POSM Software:** Ensure the POSM software is installed and the executable path is properly configured in the application settings.
+
+## Usage
+
+**Launching the Application:**
+
+- Run the application from Visual Studio or execute the generated `.exe` file.
+- The application will load the map specified by the `mapId` in `config.json`.
+
+**Interacting with the Map:**
+
+- **Feature Identification:**
+  - Tap or click on the map to identify features. The application will highlight the selected feature, extract its Asset ID, and display a popup with detailed information.
+- **Draggable Popups:**
+  - Use the mouse to drag the popup around for a better view of the map.
+- **Zoom Controls:**
+  - Use the provided Zoom In and Zoom Out buttons to adjust the view scale.
+- **Scroll Support:**
+  - The popup view supports scrolling with the mouse wheel.
+
+**Loading a Mobile Map Package (MMPK):**
+
+- Click the "Open MMPK" button.
+- Use the file dialog to select a `.mmpk` file from your local system.
+- The first map in the package will load into the viewer.
+
+**Basemap Gallery:**
+
+- Open the Basemap Gallery window to choose and switch between different basemaps.
+
+**Editing Configuration:**
+
+- Click the "Open Config" button to update settings such as the API key, POSM executable path, and inspection type.
+
+**Launching POSM:**
+
+- After selecting a feature and confirming the Asset ID, click the "Launch POSM" button.
+- The application will launch the external POSM application using the Asset ID and configured inspection type.
+- If the POSM executable is not found or not properly configured, an error message will prompt you to update the settings.
+
+## Code Structure
+
+- **App.xaml.cs:**
+  - Contains the startup logic, configuration loading, and ArcGIS Runtime licensing.
+- **MainWindow.xaml.cs:**
+  - Handles the core functionality:
+    - Map initialization and loading (both web maps and mobile map packages).
+    - Feature identification and popup creation.
+    - Zoom and navigation controls.
+    - Integration with the external POSM application.
+    - Draggable popup behavior.
+- **Additional Windows:**
+  - **BasemapGalleryWindow:** For switching basemaps.
+  - **ConfigWindow:** For editing configuration settings.
+  - **AppendToPosmDbWindow:** For appending asset data to the POSM database.
+
+## Troubleshooting
+
+- **Map Loading Errors:**
+  - Verify that the `mapId` in your configuration is correct and accessible.
+- **Feature Identification Issues:**
+  - Ensure the GIS data contains the field specified in `idField` (default is `"AssetID"`).
+- **POSM Launch Failures:**
+  - Confirm that the `posmExecutablePath` points to a valid POSM executable.
+- **Licensing/API Key Problems:**
+  - Check that your ArcGIS API key and license string are valid and have not expired.
+
+## Contributing
+
+Contributions to this project are welcome! Please feel free to open an issue or submit a pull request with your improvements or bug fixes.
+
+## License
+
+[Your License Information Here]
+
+## Contact
+
+Developed by **Octavio Pereira**  
+Email: [Octavio@posmsoftware.com](mailto:Octavio@posmsoftware.com)  
+Organization: **POSM Software**
