@@ -1,0 +1,24 @@
+# VS/Build artifacts
+.vs/
+bin/
+obj/
+publish/
+
+# User/IDE files
+*.user
+*.suo
+*.csproj.user
+*.vcxproj.user
+.vscode/
+.idea/
+
+# Logs/temp
+*.log
+*.tmp
+*.vsidx
+
+# Local config (keep secrets out of git)
+config.json
+
+# Windows reserved stray
+nul
