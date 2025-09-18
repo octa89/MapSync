@@ -1,5 +1,7 @@
 # POSM Map Reader 3.3.0 - MapSync Documentation
 
+> 🏠 **Main Project**: Return to [README.md](../README.md) for quick start and overview
+
 ## Overview
 
 POSM Map Reader 3.3.0 - MapSync is a professional WPF ArcGIS Runtime application that manages pipe assets in GIS, launches POSM inspections, and georeferencesPOSM media observations as point features. This version combines the advanced search capabilities of 3.3.0 with the professional service architecture from MR3 3.1.0.
