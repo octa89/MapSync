@@ -1,4 +1,4 @@
-# POSM Map Reader 3.3.0 - MapSync
+# Map Reader 3.3.0 - MapSync
 
 > 📚 **Complete Documentation**: For detailed technical information, see the [Documentation](Documentation/) folder
 
